@@ -12,7 +12,13 @@
   "type": "commonjs",
   "devDependencies": {
     "@types/node": "^25.5.0",
+    "@types/pg": "^8.20.0",
+    "drizzle-kit": "^0.31.10",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.2"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.45.2",
+    "pg": "^8.20.0"
   }
 }
