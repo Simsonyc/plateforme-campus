@@ -28,6 +28,7 @@ export default async function HomePage() {
     { href: '/members', emoji: '👥', count: allMemberships.length, label: 'Membres', color: '#06b6d4' },
     { href: '/incidents', emoji: '🚨', count: allIncidents.length, label: 'Incidents', color: '#dc2626' },
     { href: '/profile', emoji: '👤', count: null, label: 'Mon profil', color: '#64748b' },
+    { href: '/admin', emoji: '⚙️', count: null, label: 'Administration', color: '#1e293b' },
   ];
 
   return (
