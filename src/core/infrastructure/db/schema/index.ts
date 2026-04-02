@@ -12,5 +12,5 @@ export * from './resources';
 export * from './bookings';
 export * from './loans';
 export * from './incidents';
-
+export * from './music';
 
