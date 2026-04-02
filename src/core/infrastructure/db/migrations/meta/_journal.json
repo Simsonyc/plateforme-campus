@@ -8,6 +8,13 @@
       "when": 1775124866413,
       "tag": "0000_glossy_frank_castle",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1775125371924,
+      "tag": "0001_stale_zaran",
+      "breakpoints": true
     }
   ]
 }
