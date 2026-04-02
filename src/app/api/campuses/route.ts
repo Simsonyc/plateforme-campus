@@ -4,17 +4,9 @@ import { campuses } from '../../../core/infrastructure/db/schema/campuses';
 
 export async function GET() {
   try {
-    const allCampuses = await db.select().from(campuses);
-    return NextResponse.json({
-      success: true,
-      data: allCampuses,
-      count: allCampuses.length,
-    });
+    const data = await db.select().from(campuses);
+    return NextResponse.json({ success: true, data, count: data.length });
   } catch (error) {
-    console.error('Error fetching campuses:', error);
-    return NextResponse.json(
-      { success: false, error: 'Failed to fetch campuses' },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: 'Failed' }, { status: 500 });
   }
 }
