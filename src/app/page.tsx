@@ -7,6 +7,7 @@ import { fundingRequests } from '../core/infrastructure/db/schema/funding-reques
 import { bookings } from '../core/infrastructure/db/schema/bookings';
 import { memberships } from '../core/infrastructure/db/schema/memberships';
 import { incidents } from '../core/infrastructure/db/schema/incidents';
+import SearchBar from '../interfaces/web/features/SearchBar';
 
 export default async function HomePage() {
   const allCampuses = await db.select().from(campuses);
@@ -17,6 +18,13 @@ export default async function HomePage() {
   const allBookings = await db.select().from(bookings);
   const allMemberships = await db.select().from(memberships);
   const allIncidents = await db.select().from(incidents);
+
+  const searchData = [
+    ...allCampuses.map(c => ({ type: 'Campus', name: c.name, subtitle: `${c.city}, ${c.country}`, href: '/campuses', emoji: '🏫' })),
+    ...allAssociations.map(a => ({ type: 'Association', name: a.name, subtitle: a.description || '', href: '/associations', emoji: '🏛️' })),
+    ...allClubs.map(c => ({ type: 'Club', name: c.name, subtitle: c.description || '', href: `/clubs/${c.id}`, emoji: '🎯' })),
+    ...allEvents.map(e => ({ type: 'Événement', name: e.title, subtitle: e.location || '', href: `/events/${e.id}`, emoji: '📅' })),
+  ];
 
   const sections = [
     { href: '/campuses', emoji: '🏫', count: allCampuses.length, label: 'Campus', color: '#3b82f6' },
@@ -35,17 +43,19 @@ export default async function HomePage() {
     <main style={{ padding: '2rem', fontFamily: 'system-ui', background: '#f8fafc', minHeight: '100vh' }}>
       <div style={{ maxWidth: '960px', margin: '0 auto' }}>
         <h1 style={{ fontSize: '2rem', fontWeight: 700, color: '#1e293b' }}>🎓 Plateforme Campus</h1>
-        <p style={{ color: '#64748b', margin: '0.5rem 0 2rem' }}>Gestion de la vie associative</p>
+        <p style={{ color: '#64748b', margin: '0.5rem 0 1.5rem' }}>Gestion de la vie associative</p>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', marginBottom: '2rem' }}>
+        <SearchBar data={searchData} />
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '1rem', marginBottom: '2rem' }}>
           {sections.map((item) => (
             <a key={item.href} href={item.href} style={{ textDecoration: 'none' }}>
               <div style={{ background: 'white', borderRadius: '12px', padding: '1.25rem', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', cursor: 'pointer', borderTop: `3px solid ${item.color}` }}>
-                <div style={{ fontSize: '1.75rem' }}>{item.emoji}</div>
-                <div style={{ fontSize: '1.75rem', fontWeight: 700, color: '#1e293b', margin: '0.5rem 0 0.25rem' }}>
+                <div style={{ fontSize: '1.5rem' }}>{item.emoji}</div>
+                <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#1e293b', margin: '0.25rem 0' }}>
                   {item.count !== null ? item.count : '→'}
                 </div>
-                <div style={{ color: '#64748b', fontSize: '0.875rem' }}>{item.label}</div>
+                <div style={{ color: '#64748b', fontSize: '0.8rem' }}>{item.label}</div>
               </div>
             </a>
           ))}
