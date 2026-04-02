@@ -5,6 +5,7 @@ import { campuses } from '../../../core/infrastructure/db/schema/campuses';
 import { users } from '../../../core/infrastructure/db/schema/users';
 import { eq } from 'drizzle-orm';
 import CreateBookingForm from './CreateBookingForm';
+import BookingActionButtons from './BookingActionButtons';
 
 export default async function BookingsPage() {
   const result = await db
@@ -28,15 +29,6 @@ export default async function BookingsPage() {
   const allUsers = await db.select().from(users);
   const demoCampusId = allCampuses[0]?.id;
   const demoUserId = allUsers[0]?.id;
-
-  const statusColors: Record<string, { bg: string; color: string }> = {
-    draft: { bg: '#f1f5f9', color: '#64748b' },
-    submitted: { bg: '#dbeafe', color: '#1d4ed8' },
-    approved: { bg: '#dcfce7', color: '#166534' },
-    rejected: { bg: '#fee2e2', color: '#dc2626' },
-    cancelled: { bg: '#f1f5f9', color: '#64748b' },
-    completed: { bg: '#d1fae5', color: '#065f46' },
-  };
 
   const resourcesForForm = allResources.map(r => ({
     id: r.id,
@@ -73,9 +65,9 @@ export default async function BookingsPage() {
                 </div>
                 {booking.purpose && <div style={{ fontSize: '0.875rem', color: '#94a3b8', marginTop: '0.25rem' }}>{booking.purpose}</div>}
               </div>
-              <span style={{ background: statusColors[booking.status]?.bg || '#f1f5f9', color: statusColors[booking.status]?.color || '#64748b', fontSize: '0.75rem', fontWeight: 500, padding: '0.25rem 0.75rem', borderRadius: '999px', marginLeft: '1rem' }}>
-                {booking.status}
-              </span>
+              <div style={{ marginLeft: '1rem' }}>
+                <BookingActionButtons bookingId={booking.id} status={booking.status} />
+              </div>
             </div>
           ))}
         </div>
