@@ -38,6 +38,7 @@ export default async function ClubDetailPage({ clubId }: { clubId: string }) {
 
   const allUsers = await db.select().from(users);
   const demoUserId = allUsers[0]?.id;
+  const isMusicClub = club.name.toLowerCase().includes('musique');
 
   return (
     <main style={{ padding: '2rem', fontFamily: 'system-ui', background: '#f8fafc', minHeight: '100vh' }}>
@@ -50,9 +51,14 @@ export default async function ClubDetailPage({ clubId }: { clubId: string }) {
               <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: '#1e293b', margin: '0 0 0.5rem' }}>🎯 {club.name}</h1>
               <div style={{ fontSize: '0.875rem', color: '#64748b' }}>🎓 {club.campusName}</div>
               {club.description && <div style={{ fontSize: '0.875rem', color: '#94a3b8', marginTop: '0.5rem' }}>{club.description}</div>}
-              <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.75rem' }}>
+              <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.75rem', flexWrap: 'wrap' }}>
                 <span style={{ background: '#dbeafe', color: '#1d4ed8', fontSize: '0.75rem', padding: '0.25rem 0.75rem', borderRadius: '999px' }}>{club.status}</span>
                 <span style={{ background: '#f1f5f9', color: '#64748b', fontSize: '0.75rem', padding: '0.25rem 0.75rem', borderRadius: '999px' }}>{club.attachmentMode}</span>
+                {isMusicClub && (
+                  <a href="/music" style={{ background: '#7c3aed', color: 'white', fontSize: '0.75rem', padding: '0.25rem 0.75rem', borderRadius: '999px', textDecoration: 'none', fontWeight: 500 }}>
+                    🎵 Module Musique
+                  </a>
+                )}
               </div>
             </div>
             {demoUserId && <JoinClubButton clubId={club.id} campusId={club.campusId} userId={demoUserId} />}
