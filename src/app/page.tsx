@@ -3,12 +3,14 @@ import { campuses } from '../core/infrastructure/db/schema/campuses';
 import { associations } from '../core/infrastructure/db/schema/associations';
 import { clubs } from '../core/infrastructure/db/schema/clubs';
 import { events } from '../core/infrastructure/db/schema/events';
+import { fundingRequests } from '../core/infrastructure/db/schema/funding-requests';
 
 export default async function HomePage() {
   const allCampuses = await db.select().from(campuses);
   const allAssociations = await db.select().from(associations);
   const allClubs = await db.select().from(clubs);
   const allEvents = await db.select().from(events);
+  const allFunding = await db.select().from(fundingRequests);
 
   return (
     <main style={{ padding: '2rem', fontFamily: 'system-ui', background: '#f8fafc', minHeight: '100vh' }}>
@@ -16,18 +18,19 @@ export default async function HomePage() {
         <h1 style={{ fontSize: '2rem', fontWeight: 700, color: '#1e293b' }}>🎓 Plateforme Campus</h1>
         <p style={{ color: '#64748b', margin: '0.5rem 0 2rem' }}>Gestion de la vie associative</p>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', marginBottom: '2rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '1rem', marginBottom: '2rem' }}>
           {[
             { href: '/campuses', emoji: '🏫', count: allCampuses.length, label: 'Campus' },
             { href: '/associations', emoji: '🏛️', count: allAssociations.length, label: 'Associations' },
             { href: '/clubs', emoji: '🎯', count: allClubs.length, label: 'Clubs' },
             { href: '/events', emoji: '📅', count: allEvents.length, label: 'Événements' },
+            { href: '/funding', emoji: '💰', count: allFunding.length, label: 'Financements' },
           ].map((item) => (
             <a key={item.href} href={item.href} style={{ textDecoration: 'none' }}>
-              <div style={{ background: 'white', borderRadius: '12px', padding: '1.5rem', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', cursor: 'pointer', transition: 'box-shadow 0.2s' }}>
-                <div style={{ fontSize: '2rem' }}>{item.emoji}</div>
+              <div style={{ background: 'white', borderRadius: '12px', padding: '1.25rem', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', cursor: 'pointer' }}>
+                <div style={{ fontSize: '1.75rem' }}>{item.emoji}</div>
                 <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#1e293b', margin: '0.5rem 0 0.25rem' }}>{item.count}</div>
-                <div style={{ color: '#64748b', fontSize: '0.875rem' }}>{item.label}</div>
+                <div style={{ color: '#64748b', fontSize: '0.8rem' }}>{item.label}</div>
               </div>
             </a>
           ))}

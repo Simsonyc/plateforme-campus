@@ -5,6 +5,7 @@ import { associations } from '../../../core/infrastructure/db/schema/association
 import { users } from '../../../core/infrastructure/db/schema/users';
 import { eq } from 'drizzle-orm';
 import CreateClubForm from './CreateClubForm';
+import JoinClubButton from './JoinClubButton';
 
 export default async function ClubsPage() {
   const result = await db
@@ -14,6 +15,7 @@ export default async function ClubsPage() {
       description: clubs.description,
       status: clubs.status,
       attachmentMode: clubs.attachmentMode,
+      campusId: clubs.campusId,
       campusName: campuses.name,
       associationName: associations.name,
     })
@@ -45,14 +47,20 @@ export default async function ClubsPage() {
           )}
           {result.map((club) => (
             <div key={club.id} style={{ background: 'white', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-              <div>
+              <div style={{ flex: 1 }}>
                 <div style={{ fontWeight: 600, color: '#1e293b', fontSize: '1.1rem' }}>{club.name}</div>
                 <div style={{ fontSize: '0.875rem', color: '#64748b', marginTop: '0.25rem' }}>🎓 {club.campusName}</div>
                 {club.description && <div style={{ fontSize: '0.875rem', color: '#94a3b8', marginTop: '0.25rem' }}>{club.description}</div>}
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.25rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.5rem', marginLeft: '1rem' }}>
                 <span style={{ background: '#dbeafe', color: '#1d4ed8', fontSize: '0.75rem', fontWeight: 500, padding: '0.25rem 0.75rem', borderRadius: '999px' }}>{club.status}</span>
-                <span style={{ background: '#f1f5f9', color: '#64748b', fontSize: '0.7rem', padding: '0.2rem 0.5rem', borderRadius: '999px' }}>{club.attachmentMode}</span>
+                {demoUserId && (
+                  <JoinClubButton
+                    clubId={club.id}
+                    campusId={club.campusId}
+                    userId={demoUserId}
+                  />
+                )}
               </div>
             </div>
           ))}
