@@ -9,4 +9,8 @@ export * from './events';
 export * from './event-registrations';
 export * from './funding-requests';
 export * from './resources';
+export * from './bookings';
+export * from './loans';
+export * from './incidents';
+
 
