@@ -47,19 +47,15 @@ export default async function ClubsPage() {
           )}
           {result.map((club) => (
             <div key={club.id} style={{ background: 'white', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-              <div style={{ flex: 1 }}>
+              <a href={`/clubs/${club.id}`} style={{ textDecoration: 'none', flex: 1 }}>
                 <div style={{ fontWeight: 600, color: '#1e293b', fontSize: '1.1rem' }}>{club.name}</div>
                 <div style={{ fontSize: '0.875rem', color: '#64748b', marginTop: '0.25rem' }}>🎓 {club.campusName}</div>
                 {club.description && <div style={{ fontSize: '0.875rem', color: '#94a3b8', marginTop: '0.25rem' }}>{club.description}</div>}
-              </div>
+              </a>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.5rem', marginLeft: '1rem' }}>
                 <span style={{ background: '#dbeafe', color: '#1d4ed8', fontSize: '0.75rem', fontWeight: 500, padding: '0.25rem 0.75rem', borderRadius: '999px' }}>{club.status}</span>
                 {demoUserId && (
-                  <JoinClubButton
-                    clubId={club.id}
-                    campusId={club.campusId}
-                    userId={demoUserId}
-                  />
+                  <JoinClubButton clubId={club.id} campusId={club.campusId} userId={demoUserId} />
                 )}
               </div>
             </div>

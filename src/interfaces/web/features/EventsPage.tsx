@@ -38,7 +38,9 @@ export default async function EventsPage() {
             <div key={event.id} style={{ background: 'white', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '1.25rem', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 600, color: '#1e293b', fontSize: '1.1rem' }}>{event.title}</div>
+                  <a href={`/events/${event.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+  <div style={{ fontWeight: 600, color: '#1e293b', fontSize: '1.1rem' }}>{event.title}</div>
+</a>
                   <div style={{ fontSize: '0.875rem', color: '#64748b', marginTop: '0.25rem' }}>🎯 {event.clubName} — 🎓 {event.campusName}</div>
                   {event.location && <div style={{ fontSize: '0.875rem', color: '#64748b', marginTop: '0.25rem' }}>📍 {event.location}</div>}
                   {event.description && <div style={{ fontSize: '0.875rem', color: '#94a3b8', marginTop: '0.25rem' }}>{event.description}</div>}
