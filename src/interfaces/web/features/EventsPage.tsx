@@ -2,7 +2,9 @@ import { db } from '../../../core/infrastructure/db/client/index';
 import { events } from '../../../core/infrastructure/db/schema/events';
 import { campuses } from '../../../core/infrastructure/db/schema/campuses';
 import { clubs } from '../../../core/infrastructure/db/schema/clubs';
+import { users } from '../../../core/infrastructure/db/schema/users';
 import { eq } from 'drizzle-orm';
+import RegisterButton from './RegisterButton';
 
 export default async function EventsPage() {
   const result = await db
@@ -12,7 +14,6 @@ export default async function EventsPage() {
       description: events.description,
       location: events.location,
       startAt: events.startAt,
-      endAt: events.endAt,
       capacity: events.capacity,
       status: events.status,
       campusName: campuses.name,
@@ -21,6 +22,10 @@ export default async function EventsPage() {
     .from(events)
     .leftJoin(campuses, eq(events.campusId, campuses.id))
     .leftJoin(clubs, eq(events.clubId, clubs.id));
+
+  // Pour la démo — on prend le premier utilisateur
+  const allUsers = await db.select().from(users);
+  const demoUserId = allUsers[0]?.id;
 
   return (
     <main style={{ padding: '2rem', fontFamily: 'system-ui', background: '#f8fafc', minHeight: '100vh' }}>
@@ -32,7 +37,7 @@ export default async function EventsPage() {
           {result.map((event) => (
             <div key={event.id} style={{ background: 'white', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '1.25rem', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                <div>
+                <div style={{ flex: 1 }}>
                   <div style={{ fontWeight: 600, color: '#1e293b', fontSize: '1.1rem' }}>{event.title}</div>
                   <div style={{ fontSize: '0.875rem', color: '#64748b', marginTop: '0.25rem' }}>🎯 {event.clubName} — 🎓 {event.campusName}</div>
                   {event.location && <div style={{ fontSize: '0.875rem', color: '#64748b', marginTop: '0.25rem' }}>📍 {event.location}</div>}
@@ -42,7 +47,10 @@ export default async function EventsPage() {
                   </div>
                   {event.capacity && <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '0.25rem' }}>👥 {event.capacity} places</div>}
                 </div>
-                <span style={{ background: '#dcfce7', color: '#166534', fontSize: '0.75rem', fontWeight: 500, padding: '0.25rem 0.75rem', borderRadius: '999px', whiteSpace: 'nowrap' }}>{event.status}</span>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.5rem', marginLeft: '1rem' }}>
+                  <span style={{ background: '#dcfce7', color: '#166534', fontSize: '0.75rem', fontWeight: 500, padding: '0.25rem 0.75rem', borderRadius: '999px' }}>{event.status}</span>
+                  {demoUserId && <RegisterButton eventId={event.id} userId={demoUserId} />}
+                </div>
               </div>
             </div>
           ))}
