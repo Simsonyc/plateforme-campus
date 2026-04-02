@@ -2,7 +2,9 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "CommonJS",
-    "lib": ["ES2022"],
+    "lib": [
+      "ES2022"
+    ],
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
@@ -15,14 +17,42 @@
     "sourceMap": true,
     "baseUrl": ".",
     "paths": {
-      "@domain/*": ["src/core/domain/*"],
-      "@application/*": ["src/core/application/*"],
-      "@infrastructure/*": ["src/core/infrastructure/*"],
-      "@interfaces/*": ["src/interfaces/*"],
-      "@lib/*": ["src/lib/*"]
-    }
+      "@domain/*": [
+        "src/core/domain/*"
+      ],
+      "@application/*": [
+        "src/core/application/*"
+      ],
+      "@infrastructure/*": [
+        "src/core/infrastructure/*"
+      ],
+      "@interfaces/*": [
+        "src/interfaces/*"
+      ],
+      "@lib/*": [
+        "src/lib/*"
+      ]
+    },
+    "allowJs": true,
+    "noEmit": true,
+    "incremental": true,
+    "moduleResolution": "node",
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "tests"]
+  "include": [
+    "src/**/*",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "tests"
+  ]
 }
-
